@@ -52,7 +52,15 @@
         </v-col>
         <v-col>
           <v-label>Prima</v-label>
-          <p><b>{{ 'Prueba' }}</b></p>
+          <p v-if="this.healthAmounts !== null"><b>{{ healthData.amount }}</b></p>
+          <p><v-progress-circular v-if="this.healthAmounts === null" color="primary"
+              indeterminate></v-progress-circular></p>
+        </v-col>
+        <v-col>
+          <v-label>Total</v-label>
+          <p v-if="this.healthAmounts !== null"><b>{{ healthData.total }}</b></p>
+          <p><v-progress-circular v-if="this.healthAmounts === null" color="primary"
+              indeterminate></v-progress-circular></p>
         </v-col>
       </v-row>
 
@@ -74,7 +82,9 @@
             </v-col>
             <v-col xs="10" md="2">
               <v-label>Prima</v-label>
-              <p><b>{{ 'Prueba' }}</b></p>
+              <p v-if="this.healthAmounts !== null"><b>{{ item.amount }}</b></p>
+              <p><v-progress-circular v-if="this.healthAmounts === null" color="primary"
+                  indeterminate></v-progress-circular></p>
             </v-col>
             <v-col xs="2" md="1">
               <v-btn icon="mdi-minus" class="mx-1 ma-2" @click="popBeneficiary(index)"></v-btn>
@@ -90,6 +100,8 @@
 </template>
 
 <script>
+import api from '@/api';
+
 export default {
   name: 'health-form',
 
@@ -99,6 +111,7 @@ export default {
 
   data: () => ({
     valid: false,
+    loaded: false,
 
     insuredSums: ['20,000', '30,000', '50,000', '100,000', '200,000', '500,000'],
     types: ['REGIONAL', 'NACIONAL', 'INTERNACIONAL', 'BAJO COSTO'],
@@ -107,11 +120,15 @@ export default {
       company: 'SEGUROS MERCANTIL',
       insuredSum: '50,000',
       type: 'NACIONAL',
+      amount: '',
+      total: '',
       beneficiaries: [{
         age: '',
         relationship: '',
+        amount: '',
       }],
     },
+    healthAmounts: null,
 
     requiredRule:
       value => {
@@ -122,15 +139,81 @@ export default {
   }),
 
   methods: {
+    getAmount(age) {
+      if (this.healthAmounts !== null) {
+        let amount = this.healthAmounts.filter(item => item.age == age);
+
+        if (amount.length === 1) {
+          amount = amount[0].premium
+        } else {
+          amount = '';
+        }
+
+        if (amount == '') {
+          amount = 'N/A'
+        } else {
+          amount = '$' + amount
+        }
+
+        return amount;
+      }
+    },
+
+    fetchHealth() {
+      const company = this.healthData.company;
+      const type = this.healthData.type;
+      const insuredSum = this.healthData.insuredSum;
+
+      api.get(`/health?company=${company}&type=${type}&insured_sum=${insuredSum}`)
+        .then((response) => {
+          this.healthAmounts = response.data;
+          this.updateAmounts();
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+
+    updateAmounts() {
+      this.healthData.amount = this.getAmount(this.client.age);
+      this.healthData.total = 0;
+
+      if (parseInt(this.healthData.amount.split('$')[1])) {
+        this.healthData.total += parseInt(this.healthData.amount.split('$')[1]);
+      }
+
+      for (const [index, item] of this.healthData.beneficiaries.entries()) {
+        const beneficiaryAmount = this.getAmount(item.age);
+        this.healthData.beneficiaries[index].amount = beneficiaryAmount;
+        if (parseInt(beneficiaryAmount.split('$')[1])) {
+          this.healthData.total += parseInt(beneficiaryAmount.split('$')[1]);
+        }
+      }
+    },
+
     pushNewBeneficiary() {
       this.healthData.beneficiaries.push({
         age: '',
         relationship: '',
       });
     },
-
     popBeneficiary(index) {
       this.healthData.beneficiaries = this.healthData.beneficiaries.filter(item => item !== this.healthData.beneficiaries[index]);
+    }
+  },
+
+  computed: {
+    beneficiaries() {
+      return this.healthData.beneficiaries;
+    },
+    company() {
+      return this.healthData.company;
+    },
+    type() {
+      return this.healthData.type;
+    },
+    insuredSum() {
+      return this.healthData.insuredSum;
     }
   },
 
@@ -139,7 +222,29 @@ export default {
       if (newValid) {
         this.$emit('submit', this.healthData);
       }
-    }
+    },
+    beneficiaries: {
+      handler() {
+        this.updateAmounts();
+      },
+      deep: true,
+    },
+    company() {
+      this.healthAmounts = null
+      this.fetchHealth();
+    },
+    type() {
+      this.healthAmounts = null
+      this.fetchHealth();
+    },
+    insuredSum() {
+      this.healthAmounts = null
+      this.fetchHealth();
+    },
+  },
+
+  mounted() {
+    this.fetchHealth();
   }
 }
 </script>

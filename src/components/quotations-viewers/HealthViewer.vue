@@ -38,7 +38,7 @@
         <v-chip variant="outlined" size="large">
           <p>
             <b>Prima:</b>
-            {{ '$Prueba' }}
+            {{ quotation.healthData.amount }}
           </p>
         </v-chip>
       </v-col>
@@ -46,7 +46,7 @@
         <v-chip variant="outlined" size="large">
           <p>
             <b>Total:</b>
-            {{ '$Prueba' }}
+            {{ quotation.healthData.total }}
           </p>
         </v-chip>
       </v-col>
@@ -71,7 +71,7 @@
               </p>
               <p>
                 <b>Prima:</b>
-                $Prueba
+                {{ beneficiary.amount }}
               </p>
             </v-expansion-panel-text>
           </v-expansion-panel>
@@ -89,7 +89,7 @@
             <v-list-item-title>
               {{ item.question }}
             </v-list-item-title>
-            R: {{ item.answer }}
+            <b>R:</b> {{ item.answer }}
           </v-list-item>
         </v-list>
       </v-col>
