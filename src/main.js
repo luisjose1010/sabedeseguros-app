@@ -11,10 +11,16 @@ import { registerPlugins } from '@/plugins'
 import App from './App.vue'
 
 // Composables
-import { createApp } from 'vue'
+import { createApp } from 'vue/dist/vue.esm-bundler'
 
-const app = createApp(App)
+if (document && document.getElementById('app')) {
+    const app = createApp(App)
+    registerPlugins(app)
+    app.mount('#app')
+}
 
-registerPlugins(app)
-
-app.mount('#app')
+if (document && document.getElementById('sabedese-app')) {
+    const appBuild = createApp({})
+    registerPlugins(appBuild)
+    appBuild.mount('#sabedese-app')
+}

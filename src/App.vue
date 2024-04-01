@@ -1,9 +1,5 @@
 <template>
-  <v-app>
-    <v-main>
-      <HelloWorld />
-    </v-main>
-  </v-app>
+  <health-quoter></health-quoter>
 </template>
 
 <script setup>
