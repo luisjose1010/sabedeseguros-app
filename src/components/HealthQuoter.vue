@@ -3,7 +3,7 @@
     <v-main class="mx-auto">
       <v-container>
         <h2>Cotizador Salud</h2>
-        <base-form :valid="valid" :tabs="tabs">
+        <base-form :valid="valid" :tabs="tabs" @back="valid = true" @next="valid = false">
           <v-window-item :value="1">
             <client-form @submit="submitClient"></client-form>
           </v-window-item>

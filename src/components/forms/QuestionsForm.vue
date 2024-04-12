@@ -48,11 +48,10 @@ export default {
   watch: {
     valid(newValid) {
       if (newValid) {
-        console.log(this.questionsAnswers);
         this.$emit('submit', this.questionsAnswers);
       }
     }
-  }
+  },
 }
 </script>
 

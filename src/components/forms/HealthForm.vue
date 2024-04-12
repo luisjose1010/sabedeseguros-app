@@ -26,11 +26,11 @@
         </v-row>
 
         <v-row>
-          <v-col>
+          <v-col cols="12" md="6">
             <v-label>Tipo</v-label>
             <v-select v-model="healthData.type" :items="types"></v-select>
           </v-col>
-          <v-col>
+          <v-col cols="12" md="6">
             <v-label>Suma asegurada</v-label>
             <v-select v-model="healthData.insuredSum" :items="insuredSums"></v-select>
           </v-col>
@@ -45,18 +45,18 @@
       </v-row>
 
       <v-row>
-        <v-col>
+        <v-col cols="12" sm="6" md="4">
           <v-label>Edad</v-label>
           <v-text-field v-model="client.age" placeholder="" min="0" max="99" step="1" type="number"
             readOnly></v-text-field>
         </v-col>
-        <v-col>
+        <v-col cols="12" sm="6" md="4">
           <v-label>Prima</v-label>
           <p v-if="this.healthAmounts !== null"><b>{{ healthData.amount }}</b></p>
           <p><v-progress-circular v-if="this.healthAmounts === null" color="primary"
               indeterminate></v-progress-circular></p>
         </v-col>
-        <v-col>
+        <v-col cols="12" sm="6"md="4" class="mb-sm-3">
           <v-label>Total</v-label>
           <p v-if="this.healthAmounts !== null"><b>{{ healthData.total }}</b></p>
           <p><v-progress-circular v-if="this.healthAmounts === null" color="primary"
@@ -65,30 +65,31 @@
       </v-row>
 
 
-      <h3 class="mt-2">Beneficiarios:</h3>
+      <h3 class="mt-4 mt-md-2">Beneficiarios:</h3>
       <br>
       <v-row>
         <v-col>
           <v-row v-for="(item, index) in healthData.beneficiaries">
-            <v-col xs="12" md="5">
+            <v-col cols="12" md="5">
               <v-label>Edad</v-label>
               <v-text-field v-model="item.age" label="Ingrese la edad del beneficiario" placeholder="" min="0" max="99"
                 step="1" type="number" :rules="[requiredRule]" required></v-text-field>
             </v-col>
-            <v-col xs="10" md="4">
+            <v-col cols="10" md="4">
               <v-label>Parentesco</v-label>
               <v-text-field v-model="item.relationship" label="Ingrese el parentesco del beneficiario" placeholder=""
                 :rules="[requiredRule]" required></v-text-field>
             </v-col>
-            <v-col xs="10" md="2">
+            <v-col cols="9" md="2">
               <v-label>Prima</v-label>
               <p v-if="this.healthAmounts !== null"><b>{{ item.amount }}</b></p>
               <p><v-progress-circular v-if="this.healthAmounts === null" color="primary"
                   indeterminate></v-progress-circular></p>
             </v-col>
-            <v-col xs="2" md="1">
+            <v-col cols="3" md="1">
               <v-btn icon="mdi-minus" class="mx-1 ma-2" @click="popBeneficiary(index)"></v-btn>
             </v-col>
+            <v-divider></v-divider>
           </v-row>
         </v-col>
       </v-row>
@@ -189,6 +190,7 @@ export default {
           this.healthData.total += parseInt(beneficiaryAmount.split('$')[1]);
         }
       }
+      this.healthData.total = '$' + this.healthData.total
     },
 
     pushNewBeneficiary() {
@@ -243,7 +245,7 @@ export default {
     },
   },
 
-  mounted() {
+  created() {
     this.fetchHealth();
   }
 }

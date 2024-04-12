@@ -16,25 +16,25 @@
         <v-text-field v-model="quotation.client.idCard" readonly></v-text-field>
       </v-col>
 
-      <v-col cols="6">
+      <v-col cols="12" sm="6">
         <v-label>Número telefónico</v-label>
         <v-text-field v-model="quotation.client.phoneNumber" readonly></v-text-field>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12" sm="6">
         <v-label>Compañía</v-label>
         <v-select v-model="quotation.healthData.company" readonly></v-select>
       </v-col>
 
-      <v-col cols="6">
+      <v-col cols="12" sm="6">
         <v-label>Tipo</v-label>
         <v-select v-model="quotation.healthData.type" readonly></v-select>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12" sm="6">
         <v-label>Suma asegurada</v-label>
         <v-select v-model="quotation.healthData.insuredSum" readonly></v-select>
       </v-col>
 
-      <v-col cols="6">
+      <v-col cols="12" sm="6">
         <v-chip variant="outlined" size="large">
           <p>
             <b>Prima:</b>
@@ -42,7 +42,7 @@
           </p>
         </v-chip>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12" sm="6">
         <v-chip variant="outlined" size="large">
           <p>
             <b>Total:</b>
@@ -94,6 +94,11 @@
         </v-list>
       </v-col>
     </v-row>
+    <v-row class="d-print-none">
+      <v-col>
+        <v-btn @click="printDownload" color="success" class="float-right">Descargar</v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -111,7 +116,9 @@ export default {
   },
 
   methods: {
-
+    printDownload() {
+      window.print()
+    }
   },
 
   mounted() {
