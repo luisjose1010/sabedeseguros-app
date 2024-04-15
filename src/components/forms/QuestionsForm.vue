@@ -18,9 +18,9 @@ export default {
     valid: false,
 
     questions: [
-      '¿Tienes alguna compañía de tu preferencia?',
-      '¿Tienes algún monto establecido para esto?',
-      '¿Con qué frecuencia viajas al exterior?',
+      '¿Tiene alguna compañía de su preferencia?',
+      '¿Con qué frecuencia viaja al exterior?',
+      '¿Cuánto es su mayor tiempo de permanencia en el exterior?',
     ],
     answers: [],
 

@@ -26,27 +26,25 @@
       </v-col>
 
       <v-col cols="12" sm="6">
-        <v-label>Tipo</v-label>
-        <v-select v-model="quotation.healthData.type" readonly></v-select>
-      </v-col>
-      <v-col cols="12" sm="6">
         <v-label>Suma asegurada</v-label>
         <v-select v-model="quotation.healthData.insuredSum" readonly></v-select>
       </v-col>
+      <v-col cols="12" sm="6">
+        <v-label>Tipo</v-label>
+        <v-select v-model="quotation.healthData.type" readonly></v-select>
+      </v-col>
 
       <v-col cols="12" sm="6">
-        <v-chip variant="outlined" size="large">
-          <p>
-            <b>Prima:</b>
-            {{ quotation.healthData.amount }}
-          </p>
-        </v-chip>
+        <v-label>Modo de pago</v-label>
+        <v-select v-model="quotation.healthData.mode" readonly></v-select>
       </v-col>
       <v-col cols="12" sm="6">
+        <v-label>Monto total</v-label>
+        <br>
         <v-chip variant="outlined" size="large">
           <p>
             <b>Total:</b>
-            {{ quotation.healthData.total }}
+            ${{ quotation.healthData.total }}
           </p>
         </v-chip>
       </v-col>
@@ -71,7 +69,7 @@
               </p>
               <p>
                 <b>Prima:</b>
-                {{ beneficiary.amount }}
+                ${{ beneficiary.amount }}
               </p>
             </v-expansion-panel-text>
           </v-expansion-panel>

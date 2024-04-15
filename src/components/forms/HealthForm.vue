@@ -1,41 +1,35 @@
 <template>
   <v-form v-model="valid">
     <v-container>
-      <v-item-group v-model="healthData.company">
-        <v-row>
-          <v-col cols="12" md="4">
-            <v-item value="SEGUROS MERCANTIL" v-slot="{ isSelected, toggle }">
-              <v-img :width="355" aspect-ratio="16/9" cover src="@/assets/mercantil-seguros.png" @click="toggle"
-                :class="isSelected ? 'img-selected' : ''"></v-img>
-            </v-item>
-          </v-col>
+      <v-row>
+        <v-col cols="12">
+          <v-img :width="355" aspect-ratio="16/9" cover :src="imageSrc"></v-img>
+        </v-col>
+      </v-row>
 
-          <v-col cols="12" md="4">
-            <v-item value="ESTAR SEGUROS" v-slot="{ isSelected, toggle }">
-              <v-img :width="355" aspect-ratio="16/9" cover src="@/assets/estar-seguros.png" @click="toggle"
-                :class="isSelected ? 'img-selected' : ''"></v-img>
-            </v-item>
-          </v-col>
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-label>Empresa</v-label>
+          <v-autocomplete v-model="healthData.company" label="Selecciona la empresa de tu preferencia"
+            :items="companies"></v-autocomplete>
+        </v-col>
+        <v-col cols="12" md="6">
+          <v-label>Suma asegurada</v-label>
+          <v-select v-model="healthData.insuredSum" label="Selecciona el monto asegurado anual"
+            :items="insuredSums"></v-select>
+        </v-col>
+      </v-row>
 
-          <v-col cols="12" md="4">
-            <v-item value="LA INTERNACIONAL" v-slot="{ isSelected, toggle }">
-              <v-img :width="250" aspect-ratio="16/9" cover src="@/assets/la-internacional.png" @click="toggle"
-                :class="isSelected ? 'img-selected' : ''"></v-img>
-            </v-item>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col cols="12" md="6">
-            <v-label>Tipo</v-label>
-            <v-select v-model="healthData.type" :items="types"></v-select>
-          </v-col>
-          <v-col cols="12" md="6">
-            <v-label>Suma asegurada</v-label>
-            <v-select v-model="healthData.insuredSum" :items="insuredSums"></v-select>
-          </v-col>
-        </v-row>
-      </v-item-group>
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-label>Tipo</v-label>
+          <v-select v-model="healthData.type" :items="types"></v-select>
+        </v-col>
+        <v-col cols="12" md="6">
+          <v-label>Modo de pago</v-label>
+          <v-select v-model="healthData.mode" :items="modes"></v-select>
+        </v-col>
+      </v-row>
 
       <v-row>
         <v-col>
@@ -52,15 +46,15 @@
         </v-col>
         <v-col cols="12" sm="6" md="4">
           <v-label>Prima</v-label>
-          <p v-if="this.healthAmounts !== null"><b>{{ healthData.amount }}</b></p>
-          <p><v-progress-circular v-if="this.healthAmounts === null" color="primary"
-              indeterminate></v-progress-circular></p>
+          <p v-if="healthData.amount === ''"><b>N/A</b></p>
+          <p v-else-if="this.healthAmounts !== null"><b>${{ healthData.amount }}</b></p>
+          <p v-else><v-progress-circular color="primary" indeterminate></v-progress-circular></p>
         </v-col>
-        <v-col cols="12" sm="6"md="4" class="mb-sm-3">
+        <v-col cols="12" sm="6" md="4" class="mb-sm-3">
           <v-label>Total</v-label>
-          <p v-if="this.healthAmounts !== null"><b>{{ healthData.total }}</b></p>
-          <p><v-progress-circular v-if="this.healthAmounts === null" color="primary"
-              indeterminate></v-progress-circular></p>
+          <p v-if="healthData.total === ''"><b>N/A</b></p>
+          <p v-else-if="this.healthAmounts !== null"><b>${{ healthData.total }}</b></p>
+          <p v-else><v-progress-circular color="primary" indeterminate></v-progress-circular></p>
         </v-col>
       </v-row>
 
@@ -82,9 +76,9 @@
             </v-col>
             <v-col cols="9" md="2">
               <v-label>Prima</v-label>
-              <p v-if="this.healthAmounts !== null"><b>{{ item.amount }}</b></p>
-              <p><v-progress-circular v-if="this.healthAmounts === null" color="primary"
-                  indeterminate></v-progress-circular></p>
+              <p v-if="item.amount === ''"><b>N/A</b></p>
+              <p v-else-if="this.healthAmounts !== null"><b>${{ item.amount }}</b></p>
+              <p v-else><v-progress-circular color="primary" indeterminate></v-progress-circular></p>
             </v-col>
             <v-col cols="3" md="1">
               <v-btn icon="mdi-minus" class="mx-1 ma-2" @click="popBeneficiary(index)"></v-btn>
@@ -115,12 +109,16 @@ export default {
     loaded: false,
 
     insuredSums: ['20,000', '30,000', '50,000', '100,000', '200,000', '500,000'],
-    types: ['REGIONAL', 'NACIONAL', 'INTERNACIONAL', 'BAJO COSTO'],
+    types: ['HCM'],
+    companies: ['SEGUROS MERCANTIL', 'ESTAR SEGUROS', 'LA INTERNACIONAL', 'HISPANA DE SEGUROS', 'MAPFRE', 'SEGUROS QUALITAS'],
+    modes: ['ANUAL', 'SEMESTRAL', 'TRIMESTRAL'],
+    modeMultipliers: [1, 2, 4],
 
     healthData: {
       company: 'SEGUROS MERCANTIL',
       insuredSum: '50,000',
-      type: 'NACIONAL',
+      type: 'HCM',
+      mode: 'ANUAL',
       amount: '',
       total: '',
       beneficiaries: [{
@@ -150,12 +148,6 @@ export default {
           amount = '';
         }
 
-        if (amount == '') {
-          amount = 'N/A'
-        } else {
-          amount = '$' + amount
-        }
-
         return amount;
       }
     },
@@ -176,32 +168,39 @@ export default {
     },
 
     updateAmounts() {
+      const modeMultiplier = this.modeMultipliers[this.modes.indexOf(this.healthData.mode)];
       this.healthData.amount = this.getAmount(this.client.age);
       this.healthData.total = 0;
 
-      if (parseInt(this.healthData.amount.split('$')[1])) {
-        this.healthData.total += parseInt(this.healthData.amount.split('$')[1]);
+      if (parseFloat(this.healthData.amount)) {
+        this.healthData.amount = parseFloat(this.healthData.amount) / modeMultiplier; // Modifica según si es 'ANUAL' u otro
+        this.healthData.total += parseFloat(this.healthData.amount);
       }
 
       for (const [index, item] of this.healthData.beneficiaries.entries()) {
         const beneficiaryAmount = this.getAmount(item.age);
-        this.healthData.beneficiaries[index].amount = beneficiaryAmount;
-        if (parseInt(beneficiaryAmount.split('$')[1])) {
-          this.healthData.total += parseInt(beneficiaryAmount.split('$')[1]);
+
+        if (parseFloat(beneficiaryAmount)) {
+          this.healthData.beneficiaries[index].amount = parseFloat(beneficiaryAmount) / modeMultiplier; // Modifica según si es 'ANUAL' u otro
+          this.healthData.total += parseFloat(beneficiaryAmount) / modeMultiplier;
         }
       }
-      this.healthData.total = '$' + this.healthData.total
     },
 
     pushNewBeneficiary() {
       this.healthData.beneficiaries.push({
         age: '',
         relationship: '',
+        amount: '',
       });
     },
     popBeneficiary(index) {
       this.healthData.beneficiaries = this.healthData.beneficiaries.filter(item => item !== this.healthData.beneficiaries[index]);
-    }
+    },
+
+    toDashCase(str) {
+      return str.replace(/\s+/g, '-').toLowerCase();
+    },
   },
 
   computed: {
@@ -216,7 +215,16 @@ export default {
     },
     insuredSum() {
       return this.healthData.insuredSum;
-    }
+    },
+    mode() {
+      return this.healthData.mode;
+    },
+
+    imageSrc() {
+      const company = this.toDashCase(this.healthData.company);
+      const images = import.meta.glob('@/assets/**.png', { eager: true, import: 'default' });
+      return images[`/src/assets/${company}.png`];
+    },
   },
 
   watch: {
@@ -242,6 +250,9 @@ export default {
     insuredSum() {
       this.healthAmounts = null
       this.fetchHealth();
+    },
+    mode() {
+      this.updateAmounts();
     },
   },
 
