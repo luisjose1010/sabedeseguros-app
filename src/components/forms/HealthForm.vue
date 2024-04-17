@@ -46,15 +46,15 @@
         </v-col>
         <v-col cols="12" sm="6" md="4">
           <v-label>Prima</v-label>
-          <p v-if="healthData.amount === ''"><b>N/A</b></p>
-          <p v-else-if="this.healthAmounts !== null"><b>${{ healthData.amount }}</b></p>
-          <p v-else><v-progress-circular color="primary" indeterminate></v-progress-circular></p>
+          <p v-if="healthAmounts === null"><v-progress-circular color="primary" indeterminate></v-progress-circular></p>
+          <p v-else-if="healthData.amount !== ''"><b>${{ healthData.amount }}</b></p>
+          <p v-else><b>N/A</b></p>
         </v-col>
         <v-col cols="12" sm="6" md="4" class="mb-sm-3">
-          <v-label>Total</v-label>
-          <p v-if="healthData.total === ''"><b>N/A</b></p>
-          <p v-else-if="this.healthAmounts !== null"><b>${{ healthData.total }}</b></p>
-          <p v-else><v-progress-circular color="primary" indeterminate></v-progress-circular></p>
+          <v-label>Prima</v-label>
+          <p v-if="healthAmounts === null"><v-progress-circular color="primary" indeterminate></v-progress-circular></p>
+          <p v-else-if="healthData.total !== ''"><b>${{ healthData.total }}</b></p>
+          <p v-else><b>N/A</b></p>
         </v-col>
       </v-row>
 
@@ -76,9 +76,10 @@
             </v-col>
             <v-col cols="9" md="2">
               <v-label>Prima</v-label>
-              <p v-if="item.amount === ''"><b>N/A</b></p>
-              <p v-else-if="this.healthAmounts !== null"><b>${{ item.amount }}</b></p>
-              <p v-else><v-progress-circular color="primary" indeterminate></v-progress-circular></p>
+              <p v-if="healthAmounts === null"><v-progress-circular color="primary" indeterminate></v-progress-circular>
+              </p>
+              <p v-else-if="item.amount !== ''"><b>${{ item.amount }}</b></p>
+              <p v-else><b>N/A</b></p>
             </v-col>
             <v-col cols="3" md="1">
               <v-btn icon="mdi-minus" class="mx-1 ma-2" @click="popBeneficiary(index)"></v-btn>
@@ -106,17 +107,16 @@ export default {
 
   data: () => ({
     valid: false,
-    loaded: false,
 
-    insuredSums: ['20,000', '30,000', '50,000', '100,000', '200,000', '500,000'],
-    types: ['HCM'],
-    companies: ['SEGUROS MERCANTIL', 'ESTAR SEGUROS', 'LA INTERNACIONAL', 'HISPANA DE SEGUROS', 'MAPFRE', 'SEGUROS QUALITAS'],
+    insuredSums: ['Cargando...'],
+    types: ['HCM', 'EMERGENCIAS MÉDICAS', 'MEDICINA PREPAGADA (ZULIA)'],
+    companies: ['Cargando...'],
     modes: ['ANUAL', 'SEMESTRAL', 'TRIMESTRAL'],
     modeMultipliers: [1, 2, 4],
 
     healthData: {
-      company: 'SEGUROS MERCANTIL',
-      insuredSum: '50,000',
+      company: 'Cargando...',
+      insuredSum: 'Cargando...',
       type: 'HCM',
       mode: 'ANUAL',
       amount: '',
@@ -152,6 +152,33 @@ export default {
       }
     },
 
+    fetchCompanies() {
+      const type = this.healthData.type;
+
+      api.get(`/health/company?&type=${type}`)
+        .then((response) => {
+          this.companies = response.data;
+          this.healthData.company = this.companies[0];
+          this.fetchInsuredSums();
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+    fetchInsuredSums() {
+      const company = this.healthData.company;
+      const type = this.healthData.type;
+
+      api.get(`/health/insured-sum?company=${company}&type=${type}`)
+        .then((response) => {
+          this.insuredSums = response.data;
+          this.healthData.insuredSum = this.insuredSums[0];
+          this.fetchHealth();
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
     fetchHealth() {
       const company = this.healthData.company;
       const type = this.healthData.type;
@@ -175,6 +202,8 @@ export default {
       if (parseFloat(this.healthData.amount)) {
         this.healthData.amount = parseFloat(this.healthData.amount) / modeMultiplier; // Modifica según si es 'ANUAL' u otro
         this.healthData.total += parseFloat(this.healthData.amount);
+      } else {
+        this.healthData.amount = this.healthData.amount;
       }
 
       for (const [index, item] of this.healthData.beneficiaries.entries()) {
@@ -183,6 +212,8 @@ export default {
         if (parseFloat(beneficiaryAmount)) {
           this.healthData.beneficiaries[index].amount = parseFloat(beneficiaryAmount) / modeMultiplier; // Modifica según si es 'ANUAL' u otro
           this.healthData.total += parseFloat(beneficiaryAmount) / modeMultiplier;
+        } else {
+          this.healthData.beneficiaries[index].amount = beneficiaryAmount;
         }
       }
     },
@@ -241,11 +272,11 @@ export default {
     },
     company() {
       this.healthAmounts = null
-      this.fetchHealth();
+      this.fetchInsuredSums();
     },
     type() {
       this.healthAmounts = null
-      this.fetchHealth();
+      this.fetchCompanies();
     },
     insuredSum() {
       this.healthAmounts = null
@@ -257,7 +288,7 @@ export default {
   },
 
   created() {
-    this.fetchHealth();
+    this.fetchCompanies();
   }
 }
 </script>
