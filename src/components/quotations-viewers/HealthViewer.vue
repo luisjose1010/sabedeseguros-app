@@ -97,16 +97,29 @@
         <v-btn @click="printDownload" color="success" class="float-right">Descargar</v-btn>
       </v-col>
     </v-row>
+
+    <v-dialog v-model="dialog" width="auto">
+      <v-card max-width="600" prepend-icon="mdi-email" :text="dialogMessage" :title="dialogTitle">
+        <template v-slot:actions>
+          <v-btn class="ms-auto" text="Aceptar" @click="dialog = false"></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
+import api from '@/api';
+
 export default {
   name: 'health-viewer',
 
   data: () => ({
     valid: false,
     extendedBeneficiaries: [],
+    dialog: false,
+    dialogTitle: '',
+    dialogMessage: '',
   }),
 
   props: {
@@ -122,6 +135,24 @@ export default {
   mounted() {
     // Inicia abierto el panel extensible de beneficiarios
     this.extendedBeneficiaries = Object.keys(this.quotation.healthData.beneficiaries)
+
+    api.post('/health', this.quotation)
+      .then((response) => {
+        if (response.data) {
+          this.dialogTitle = 'Correo electrónico enviado';
+          this.dialogMessage = 'En breve un asesor se pondrá en contacto con usted.';
+          this.dialog = true;
+        } else {
+          this.dialogTitle = 'Error';
+          this.dialogMessage = 'Ha ocurrido un error al enviar el correo de la cotización.';
+          this.dialog = true;
+        }
+      })
+      .catch(() => {
+        this.dialogTitle = 'Error';
+        this.dialogMessage = 'Ha ocurrido un error enviando la cotización.';
+        this.dialog = true;
+      });
   }
 }
 </script>
