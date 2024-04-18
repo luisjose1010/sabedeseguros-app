@@ -4,7 +4,7 @@
       <v-row v-for="(question, index) in questions">
         <v-col>
           <v-label>{{ question }}</v-label>
-          <v-text-field v-model="answers[index]" :rules="[requiredRule]" required></v-text-field>
+          <v-text-field v-model="answers[index]" :rules="[requiredRule(answers[index])]" required></v-text-field>
         </v-col>
       </v-row>
     </v-form>
@@ -16,7 +16,6 @@ export default {
   name: 'questions-form',
   data: () => ({
     valid: false,
-
     questions: [
       '¿Tiene alguna compañía de su preferencia?',
       '¿Con qué frecuencia viaja al exterior?',
@@ -24,35 +23,38 @@ export default {
     ],
     answers: [],
 
-    requiredRule:
-      value => {
-        if (value) return true
-
-        return 'Campo requerido.'
-      },
+    requiredRule: (value) =>
+      value ? true : 'Campo requerido.'
   }),
-
   methods: {
-
+    submitForm(valid, data) {
+      if (valid) {
+        this.$emit('submit', data);
+      } else {
+        this.$emit('invalidForm');
+      }
+    },
   },
-
   computed: {
     questionsAnswers() {
       return this.questions.map((question, index) => ({
         question: question,
         answer: this.answers[index],
-      }))
-    }
+      }));
+    },
   },
-
   watch: {
+    questionsAnswers: {
+      handler(newAnswers) {
+        this.submitForm(this.valid, newAnswers);
+      },
+      deep: true,
+    },
     valid(newValid) {
-      if (newValid) {
-        this.$emit('submit', this.questionsAnswers);
-      }
-    }
+      this.submitForm(newValid, this.questionsAnswers);
+    },
   },
-}
+};
 </script>
 
 <style scoped>

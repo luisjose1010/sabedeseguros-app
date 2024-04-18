@@ -5,15 +5,15 @@
         <h2>Cotizador Salud</h2>
         <base-form :valid="valid" :tabs="tabs" @back="valid = true" @next="valid = false">
           <v-window-item :value="1">
-            <client-form @submit="submitClient"></client-form>
+            <client-form @submit="submitClient" @invalidForm="valid = false"></client-form>
           </v-window-item>
 
           <v-window-item :value="2">
-            <health-form :client="quotation.client" @submit="submitHealth"></health-form>
+            <health-form :client="quotation.client" @submit="submitHealth" @invalidForm="valid = false"></health-form>
           </v-window-item>
 
           <v-window-item :value="3">
-            <questions-form @submit="submitQuestions"></questions-form>
+            <questions-form @submit="submitQuestions" @invalidForm="valid = false"></questions-form>
           </v-window-item>
 
           <v-window-item :value="4">

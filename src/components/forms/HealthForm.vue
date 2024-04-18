@@ -67,7 +67,7 @@
             <v-col cols="12" md="5">
               <v-label>Edad</v-label>
               <v-text-field v-model="item.age" label="Ingrese la edad del beneficiario" placeholder="" min="0" max="99"
-                step="1" type="number" :rules="[requiredRule]" required></v-text-field>
+                step="1" type="number" :rules="ageRule" required></v-text-field>
             </v-col>
             <v-col cols="10" md="4">
               <v-label>Parentesco</v-label>
@@ -135,6 +135,11 @@ export default {
 
         return 'Campo requerido.'
       },
+    ageRule: [
+      value => value ? true : 'Campo requerido.',
+      value => value >= 0 && value <= 100 ? true : 'La edad debe ser entre 0 y 100 años.',
+      value => value % 1 == 0 ? true : 'Edad no válida.',
+    ]
   }),
 
   methods: {
@@ -149,6 +154,13 @@ export default {
         }
 
         return amount;
+      }
+    },
+    submitForm(valid, data) {
+      if (valid) {
+        this.$emit('submit', data);
+      } else {
+        this.$emit('invalidForm');
       }
     },
 
@@ -259,10 +271,14 @@ export default {
   },
 
   watch: {
+    healthData: {
+      handler(newData) {
+        this.submitForm(this.valid, newData)
+      },
+      deep: true,
+    },
     valid(newValid) {
-      if (newValid) {
-        this.$emit('submit', this.healthData);
-      }
+      this.submitForm(newValid, this.healthData)
     },
     beneficiaries: {
       handler() {

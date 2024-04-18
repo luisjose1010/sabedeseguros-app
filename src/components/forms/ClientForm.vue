@@ -19,24 +19,23 @@
           <v-text-field v-model="client.idCard" :rules="[requiredRule]" label="Ingrese su cédula"
             placeholder="V-000000000" hide-details required></v-text-field>
         </v-col>
-
       </v-row>
       <v-row id="fecha">
-        <v-col>
+        <v-col cols="12" md="4">
           <v-label>Fecha de nacimiento</v-label>
-          <v-input @click="datePicker = !datePicker">
-              {{ client.birthday ? adapter.format(client.birthday, 'fullDateWithWeekday') : 'Seleccionar fecha' }}
-              <a href="#fecha"><v-icon icon="mdi-calendar-edit" color="black" class="mx-2"></v-icon></a>
-            </v-input>
+          <v-text-field @click="datePicker = !datePicker" :rules="[birthdayRule]" append-inner-icon="mdi-calendar-edit"
+            :model-value="client.birthday ? adapter.format(client.birthday, 'fullDateWithWeekday') : 'Seleccionar fecha'"
+            readonly>
+          </v-text-field>
+        </v-col>
+        <v-col cols="12">
           <v-expand-transition>
             <v-date-picker v-if="datePicker" v-model="client.birthday" :max="new Date(Date.now())" view-mode="year"
               color="primary" @update:modelValue="datePicker = false" aria-label="Seleccionar fecha"></v-date-picker>
           </v-expand-transition>
         </v-col>
-      </v-row>
 
-      <v-row>
-        <v-col>
+        <v-col cols="12">
           <v-label>Correo electrónico</v-label>
           <v-text-field v-model="client.email" :rules="emailRules" label="Correo electrónico"
             placeholder="ejemplo@mail.com" type="email" hide-details required></v-text-field>
@@ -70,6 +69,12 @@ export default {
 
         return 'Campo requerido.'
       },
+    birthdayRule:
+      value => {
+        if (value !== 'Seleccionar fecha') return true
+
+        return 'Campo requerido.'
+      },
     emailRules: [
       value => {
         if (value) return true
@@ -88,6 +93,15 @@ export default {
     getAge(dateString) {
       var birthday = +new Date(dateString);
       return ~~((Date.now() - birthday) / (31557600000));
+    },
+
+    submitForm(valid, data) {
+      if (valid) {
+        data.age = this.getAge(data.birthday);
+        this.$emit('submit', data);
+      } else {
+        this.$emit('invalidForm');
+      }
     }
   },
 
@@ -100,16 +114,13 @@ export default {
   watch: {
     // Valida tanto el formulario, como la entrada del birthday
     valid(newValid) {
-      if (newValid && this.clientBirthday) {
-        this.client.age = this.getAge(this.client.birthday);
-        this.$emit('submit', this.client);
-      }
+      this.submitForm(newValid, this.client);
     },
-    clientBirthday(newClientBirthday) {
-      if (this.valid && newClientBirthday) {
-        this.client.age = this.getAge(this.client.birthday);
-        this.$emit('submit', this.client);
-      }
+    healthData: {
+      handler(newData) {
+        this.submitForm(this.valid, newData);
+      },
+      deep: true,
     },
   }
 }
