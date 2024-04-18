@@ -94,7 +94,8 @@
     </v-row>
     <v-row class="d-print-none">
       <v-col>
-        <v-btn @click="printDownload" color="success" class="float-right">Descargar</v-btn>
+        <a href="/citas"><v-btn color="primary" class="float-right mx-2">Agendar Cita</v-btn></a>
+        <v-btn @click="printDownload" color="success" class="float-right mx-2">Descargar</v-btn>
       </v-col>
     </v-row>
 

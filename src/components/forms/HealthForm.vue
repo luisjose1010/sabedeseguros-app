@@ -51,7 +51,7 @@
           <p v-else><b>N/A</b></p>
         </v-col>
         <v-col cols="12" sm="6" md="4" class="mb-sm-3">
-          <v-label>Prima</v-label>
+          <v-label>Total</v-label>
           <p v-if="healthAmounts === null"><v-progress-circular color="primary" indeterminate></v-progress-circular></p>
           <p v-else-if="healthData.total !== ''"><b>${{ healthData.total }}</b></p>
           <p v-else><b>N/A</b></p>
