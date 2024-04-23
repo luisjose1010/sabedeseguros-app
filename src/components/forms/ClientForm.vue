@@ -2,31 +2,37 @@
   <v-container>
     <v-form v-model="valid" id="form">
       <v-row>
-        <v-col cols="12" md="4">
+        <v-col cols="12">
           <v-label>Nombre y apellido</v-label>
           <v-text-field v-model="client.name" :rules="[requiredRule]" label="Escriba su nombre" hide-details
             required></v-text-field>
         </v-col>
 
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="6">
           <v-label>Número telefónico</v-label>
           <v-text-field v-model="client.phoneNumber" :rules="[requiredRule]" label="Ingrese su número de teléfono"
             placeholder="+58 0123-4567890" required></v-text-field>
         </v-col>
 
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="6">
           <v-label>Cédula de identidad</v-label>
           <v-text-field v-model="client.idCard" :rules="[requiredRule]" label="Ingrese su cédula"
             placeholder="V-000000000" hide-details required></v-text-field>
         </v-col>
       </v-row>
       <v-row id="fecha">
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="5">
           <v-label>Fecha de nacimiento</v-label>
           <v-text-field @click="datePicker = !datePicker" :rules="[birthdayRule]" append-inner-icon="mdi-calendar-edit"
             :model-value="client.birthday ? adapter.format(client.birthday, 'fullDateWithWeekday') : 'Seleccionar fecha'"
             readonly>
           </v-text-field>
+        </v-col>
+
+        <v-col cols="12" md="7">
+          <v-label>Correo electrónico</v-label>
+          <v-text-field v-model="client.email" :rules="emailRules" label="Correo electrónico"
+            placeholder="ejemplo@mail.com" type="email" hide-details required></v-text-field>
         </v-col>
         <v-col cols="12">
           <v-expand-transition>
@@ -34,13 +40,9 @@
               color="primary" @update:modelValue="datePicker = false" aria-label="Seleccionar fecha"></v-date-picker>
           </v-expand-transition>
         </v-col>
-
-        <v-col cols="12">
-          <v-label>Correo electrónico</v-label>
-          <v-text-field v-model="client.email" :rules="emailRules" label="Correo electrónico"
-            placeholder="ejemplo@mail.com" type="email" hide-details required></v-text-field>
-        </v-col>
       </v-row>
+
+      <slot></slot>
     </v-form>
   </v-container>
 </template>

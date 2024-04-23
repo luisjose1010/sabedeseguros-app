@@ -1,5 +1,5 @@
 <template>
-  <health-quoter></health-quoter>
+  <accidents-quoter></accidents-quoter>
 </template>
 
 <script setup>
