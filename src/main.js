@@ -13,6 +13,7 @@ import HealthQuoter from './components/HealthQuoter.vue'
 import FuneralQuoter from './components/FuneralQuoter.vue'
 import AccidentsQuoter from './components/AccidentsQuoter.vue'
 import LifeQuoter from './components/LifeQuoter.vue'
+import CarQuoter from './components/CarQuoter.vue'
 
 // Composables
 import { createApp } from 'vue/dist/vue.esm-bundler'
@@ -30,5 +31,6 @@ if (document && document.getElementById('sabedese-app')) {
     appBuild.component('funeral-quoter', FuneralQuoter)
     appBuild.component('accidents-quoter', AccidentsQuoter)
     appBuild.component('life-quoter', LifeQuoter)
+    appBuild.component('car-quoter', CarQuoter)
     appBuild.mount('#sabedese-app')
 }

@@ -1,5 +1,5 @@
 <template>
-  <life-quoter></life-quoter>
+  <car-quoter></car-quoter>
 </template>
 
 <script setup>
