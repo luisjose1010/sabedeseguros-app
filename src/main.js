@@ -10,6 +10,7 @@ import { registerPlugins } from '@/plugins'
 // Components
 import App from './App.vue'
 import HealthQuoter from './components/HealthQuoter.vue'
+import FuneralQuoter from './components/FuneralQuoter.vue'
 
 // Composables
 import { createApp } from 'vue/dist/vue.esm-bundler'
@@ -24,5 +25,6 @@ if (document && document.getElementById('sabedese-app')) {
     const appBuild = createApp({})
     registerPlugins(appBuild)
     appBuild.component('health-quoter', HealthQuoter)
+    appBuild.component('funeral-quoter', FuneralQuoter)
     appBuild.mount('#sabedese-app')
 }
