@@ -1,5 +1,5 @@
 <template>
-  <transport-quoter></transport-quoter>
+  <surety-quoter></surety-quoter>
 </template>
 
 <script setup>
