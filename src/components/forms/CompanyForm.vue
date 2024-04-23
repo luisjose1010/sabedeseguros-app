@@ -27,7 +27,7 @@
         <v-col cols="12" md="6">
           <v-label>Persona a cargo</v-label>
           <v-text-field v-model="company.owner" :rules="[requiredRule]" label="Ingrese el encargado de la empresa"
-            placeholder="+58 0123-4567890" required></v-text-field>
+            placeholder="" required></v-text-field>
         </v-col>
       </v-row>
 

@@ -1,5 +1,5 @@
 <template>
-  <patrimonial-quoter></patrimonial-quoter>
+  <transport-quoter></transport-quoter>
 </template>
 
 <script setup>
