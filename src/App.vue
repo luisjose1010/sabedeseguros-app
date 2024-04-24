@@ -1,5 +1,5 @@
 <template>
-  <surety-quoter></surety-quoter>
+  <pet-quoter></pet-quoter>
 </template>
 
 <script setup>
