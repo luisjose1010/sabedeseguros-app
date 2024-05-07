@@ -25,21 +25,18 @@
         <v-label>Edad</v-label>
         <v-select v-model="quotation.client.age" readonly></v-select>
       </v-col>
-    </v-row>
 
-    <v-row>
-      <v-col>
+      <v-col cols="12" sm="6">
         <v-label>Ocupación</v-label>
         <v-text-field v-model="quotation.client.occupation" readonly></v-text-field>
       </v-col>
-
-      <v-col>
+      <v-col cols="12" sm="6">
         <v-label>Tipo</v-label>
-        <v-text-field v-model="quotation.accidentsData.type" readonly></v-text-field>
+        <v-select v-model="quotation.accidentsData.type" readonly></v-select>
       </v-col>
-    </v-row>
 
-    <v-divider></v-divider>
+      <v-divider></v-divider>
+    </v-row>
 
     <v-row class="mt-2">
       <v-col>

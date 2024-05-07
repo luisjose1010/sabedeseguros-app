@@ -2,12 +2,6 @@
   <v-container>
     <v-form v-model="valid">
       <v-row>
-        <v-col cols="12">
-          <v-label>Nombre y apellido</v-label>
-          <v-text-field v-model="petData.name" :rules="[requiredRule]" label="Ingrese el nombre del solicitante"
-            placeholder="" required></v-text-field>
-        </v-col>
-
         <v-col cols="12" sm="6">
           <v-label>Tipo de mascota</v-label>
           <p class="mt-1">
@@ -55,7 +49,6 @@ export default {
     datePicker: false,
 
     petData: {
-      name: '',
       type: 'Canina',
       breed: '',
       birthday: null,

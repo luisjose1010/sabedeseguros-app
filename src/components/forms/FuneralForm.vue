@@ -2,9 +2,9 @@
   <v-form v-model="valid" id="form">
     <v-container>
       <h3>Tipo de cotización</h3>
-      <v-row class="mt-1 mb-2">
+      <v-row class="mt-1 mb-3">
         <v-col cols="12" md="6">
-          <v-btn-toggle v-model="funeralData.type" color="blue-darken-3">
+          <v-btn-toggle v-model="funeralData.type" mandatory color="blue-darken-3">
             <v-btn value="Individual">
               Individual
             </v-btn>
@@ -17,7 +17,7 @@
 
       <h3 v-if="funeralData.type === 'Colectivo'">Datos de la empresa</h3>
       <v-expand-transition>
-        <v-row class="mt-1 mb-2" v-if="funeralData.type === 'Colectivo'">
+        <v-row class="mt-1 mb-3" v-if="funeralData.type === 'Colectivo'">
           <v-col cols="12" md="6">
             <v-label>Nombre de empresa</v-label>
             <v-text-field v-model="funeralData.company.name" :rules="[requiredRule]"
@@ -45,10 +45,12 @@
             <v-text-field v-model="funeralData.company.owner" :rules="[requiredRule]"
               label="Ingrese el encargado de la empresa" placeholder="+58 0123-4567890" required></v-text-field>
           </v-col>
+
+          <v-divider></v-divider>
         </v-row>
       </v-expand-transition>
 
-      <v-row>
+      <v-row class="mt-1 mb-3">
         <v-col>
           <h3>Datos del cliente:</h3>
           <span>{{ client.name }}</span>
@@ -58,11 +60,12 @@
           <v-text-field v-model="client.age" placeholder="" min="0" max="99" step="1" type="number"
             readOnly></v-text-field>
         </v-col>
+
+        <v-divider></v-divider>
       </v-row>
 
-      <h3 class="mt-4 mt-md-2">Beneficiarios (personas a incluir en la póliza):</h3>
-      <br>
-      <v-row>
+      <h3>Beneficiarios (personas a incluir en la póliza):</h3>
+      <v-row class="mt-2">
         <v-col>
           <v-row v-for="(item, index) in funeralData.beneficiaries">
             <v-col cols="12" md="4">
@@ -148,17 +151,12 @@ export default {
   }),
 
   methods: {
-    getAge(dateString) {
-      var birthday = +new Date(dateString);
-      return ~~((Date.now() - birthday) / (31557600000));
-    },
-
     submitForm(valid, data) {
       if (valid) {
         if(this.funeralData.type === 'Colectivo') {
           this.$emit('submit', data);
         } else {
-          this.$emit('submit', { ...data});
+          this.$emit('submit', { ...data, company: undefined });
         }
       } else {
         this.$emit('invalidForm');
@@ -177,14 +175,8 @@ export default {
     },
   },
 
-  computed: {
-    clientBirthday() {
-      return this.client.birthday
-    },
-  },
-
   watch: {
-    // Valida tanto el formulario, como la entrada del birthday
+    // Valida el formulario
     valid(newValid) {
       this.submitForm(newValid, this.funeralData);
     },

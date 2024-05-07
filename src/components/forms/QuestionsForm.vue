@@ -16,16 +16,22 @@ export default {
   name: 'questions-form',
   data: () => ({
     valid: false,
-    questions: [
-      '¿Tiene alguna compañía de su preferencia?',
-      '¿Con qué frecuencia viaja al exterior?',
-      '¿Cuánto es su mayor tiempo de permanencia en el exterior?',
-    ],
     answers: [],
 
     requiredRule: (value) =>
       value ? true : 'Campo requerido.'
   }),
+
+  props: {
+    questions: {
+      type: Array,
+      default: [
+        '¿Tiene alguna compañía de su preferencia?',
+        '¿Como te enteraste de nosotros?',
+      ],
+    },
+  },
+
   methods: {
     submitForm(valid, data) {
       if (valid) {
@@ -35,6 +41,7 @@ export default {
       }
     },
   },
+
   computed: {
     questionsAnswers() {
       return this.questions.map((question, index) => ({
@@ -43,6 +50,7 @@ export default {
       }));
     },
   },
+
   watch: {
     questionsAnswers: {
       handler(newAnswers) {

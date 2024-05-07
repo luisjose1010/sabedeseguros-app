@@ -2,7 +2,7 @@
   <v-app>
     <v-main class="mx-auto">
       <v-container>
-        <h2>Cotizador de Patrimoniales</h2>
+        <h2>Cotizador Patrimoniales</h2>
         <base-form :valid="valid" :tabs="tabs" @back="valid = true" @next="valid = false">
           <v-window-item :value="1">
             <v-container>
@@ -83,17 +83,6 @@ export default {
       owner: '',
     },
     questions: [],
-
-    requiredRule:
-      value => {
-        if (value) return true
-
-        return 'Campo requerido.'
-      },
-    yearRule: [
-      value => value ? true : 'Campo requerido.',
-      value => value % 1 == 0 ? true : 'Ingrese un año válido.',
-    ]
   }),
 
   methods: {

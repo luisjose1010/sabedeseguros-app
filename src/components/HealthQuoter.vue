@@ -13,7 +13,8 @@
           </v-window-item>
 
           <v-window-item :value="3">
-            <questions-form @submit="submitQuestions" @invalidForm="valid = false"></questions-form>
+            <questions-form :questions="questions" @submit="submitQuestions"
+              @invalidForm="valid = false"></questions-form>
           </v-window-item>
 
           <v-window-item :value="4">
@@ -43,6 +44,11 @@ export default {
       'Preguntas finales',
       'Cotización realizada',
     ],
+    questions: [
+      '¿Tiene alguna otra compañía de su preferencia?',
+      '¿Con qué frecuencia viaja al exterior?',
+      '¿Cuánto es su mayor tiempo de permanencia en el exterior?',
+    ],
 
     client: {
       idCard: '',
@@ -55,7 +61,7 @@ export default {
       beneficiaries: [],
       total: 0,
     },
-    questions: [],
+    questionsAnswers: [],
   }),
 
   methods: {
@@ -69,8 +75,8 @@ export default {
       this.valid = true;
     },
 
-    submitQuestions(questions) {
-      this.questions = questions;
+    submitQuestions(questionsAnswers) {
+      this.questionsAnswers = questionsAnswers;
       this.valid = true;
     },
   },
@@ -80,7 +86,7 @@ export default {
       return {
         client: this.client,
         healthData: this.healthData,
-        questions: this.questions,
+        questions: this.questionsAnswers,
       }
     }
   },

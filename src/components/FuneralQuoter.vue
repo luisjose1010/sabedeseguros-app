@@ -2,7 +2,7 @@
   <v-app>
     <v-main class="mx-auto">
       <v-container>
-        <h2>Cotizador de Funerario</h2>
+        <h2>Cotizador Funerario</h2>
         <base-form :valid="valid" :tabs="tabs" @back="valid = true" @next="valid = false">
           <v-window-item :value="1">
             <client-form @submit="submitClient" @invalidForm="valid = false"></client-form>

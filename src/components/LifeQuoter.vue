@@ -2,7 +2,7 @@
   <v-app>
     <v-main class="mx-auto">
       <v-container>
-        <h2>Cotizador de Vida</h2>
+        <h2>Cotizador Vida</h2>
         <base-form :valid="valid" :tabs="tabs" @back="valid = true" @next="valid = false">
           <v-window-item :value="1">
             <client-form @submit="submitClient" @invalidForm="valid = false">
@@ -102,7 +102,6 @@ export default {
       email: '',
       phoneNumber: '',
       birthday: null,
-      occupation: '',
     },
     lifeData: {
       smoker: 'No',
@@ -121,7 +120,7 @@ export default {
 
   methods: {
     submitClient(client) {
-      this.client = { ...client, occupation: this.client.occupation };
+      this.client = client;
       this.valid = true;
     },
 
@@ -134,7 +133,7 @@ export default {
   computed: {
     quotation() {
       return {
-        client: { ...this.client, occupation: this.client.occupation },
+        client: this.client,
         lifeData: this.lifeData,
         questions: this.questions,
       }

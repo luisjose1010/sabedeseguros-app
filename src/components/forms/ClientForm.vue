@@ -107,14 +107,8 @@ export default {
     }
   },
 
-  computed: {
-    clientBirthday() {
-      return this.client.birthday
-    },
-  },
-
   watch: {
-    // Valida tanto el formulario, como la entrada del birthday
+    // Valida el formulario
     valid(newValid) {
       this.submitForm(newValid, this.client);
     },

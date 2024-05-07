@@ -2,7 +2,7 @@
   <v-app>
     <v-main class="mx-auto">
       <v-container>
-        <h2>Cotizador de Fianzas</h2>
+        <h2>Cotizador Fianzas</h2>
         <base-form :valid="valid" :tabs="tabs" @back="valid = true" @next="valid = false">
           <v-window-item :value="1">
             <surety-form @submit="submitSurety" @invalidForm="valid = false"></surety-form>
@@ -39,29 +39,6 @@ export default {
       phoneNumber: '',
       type: '',
     },
-
-    requiredRule:
-      value => {
-        if (value) return true
-
-        return 'Campo requerido.'
-      },
-    yearRule: [
-      value => value ? true : 'Campo requerido.',
-      value => value % 1 == 0 ? true : 'Ingrese un año válido.',
-    ],
-    emailRules: [
-      value => {
-        if (value) return true
-
-        return 'Campo requerido.'
-      },
-      value => {
-        if (/.+@.+\..+/.test(value)) return true
-
-        return 'Dirección de correo inválida.'
-      },
-    ],
   }),
 
   methods: {

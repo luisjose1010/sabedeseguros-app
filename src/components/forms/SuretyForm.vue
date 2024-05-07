@@ -62,12 +62,6 @@ export default {
 
         return 'Campo requerido.'
       },
-    birthdayRule:
-      value => {
-        if (value !== 'Seleccionar fecha') return true
-
-        return 'Campo requerido.'
-      },
     emailRules: [
       value => {
         if (value) return true

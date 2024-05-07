@@ -27,7 +27,10 @@
       </v-col>
 
       <v-divider></v-divider>
+    </v-row>
 
+    <h3>Datos del automóvil</h3>
+    <v-row class="mt-1 mb-3">
       <v-col cols="12" sm="6">
         <v-label>Marca</v-label>
         <v-text-field v-model="quotation.carData.brand" readonly></v-text-field>
@@ -44,9 +47,9 @@
         <v-label>Versión</v-label>
         <v-text-field v-model="quotation.carData.version" readonly></v-text-field>
       </v-col>
-    </v-row>
 
-    <v-divider></v-divider>
+      <v-divider></v-divider>
+    </v-row>
 
     <v-row class="mt-2">
       <v-col>

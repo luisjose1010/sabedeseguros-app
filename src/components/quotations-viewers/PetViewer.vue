@@ -1,15 +1,39 @@
 <template>
   <v-container>
-    <h3>Datos de mascota</h3>
+    <h3>Datos del cliente</h3>
     <v-row class="mt-1 mb-3">
-      <v-col cols="12">
-        <v-label>Nombre del solicitante</v-label>
-        <v-text-field v-model="quotation.petData.name" readonly></v-text-field>
+      <v-col cols="12" md="4">
+        <v-label>Nombre y apellido</v-label>
+        <v-text-field v-model="quotation.client.name" readonly></v-text-field>
       </v-col>
 
+      <v-col cols="12" md="4">
+        <v-label>Correo electrónico</v-label>
+        <v-text-field v-model="quotation.client.email" readonly></v-text-field>
+      </v-col>
+
+      <v-col cols="12" md="4">
+        <v-label>Cédula de identidad</v-label>
+        <v-text-field v-model="quotation.client.idCard" readonly></v-text-field>
+      </v-col>
+
+      <v-col cols="12" sm="6">
+        <v-label>Número telefónico</v-label>
+        <v-text-field v-model="quotation.client.phoneNumber" readonly></v-text-field>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <v-label>Edad</v-label>
+        <v-select v-model="quotation.client.age" readonly></v-select>
+      </v-col>
+
+      <v-divider></v-divider>
+    </v-row>
+
+    <h3>Datos de mascota</h3>
+    <v-row class="mt-1 mb-3">
       <v-col cols="12" md="6">
         <v-label>Tipo de mascota</v-label>
-        <v-text-field v-model="quotation.petData.type" readonly></v-text-field>
+        <v-select v-model="quotation.petData.type" readonly></v-select>
       </v-col>
       <v-col cols="12" md="6">
         <v-label>Raza</v-label>
@@ -17,11 +41,28 @@
       </v-col>
       <v-col cols="12" md="6">
         <v-label>Fecha de nacimiento</v-label>
-        <v-text-field :model-value="adapter.format(quotation.petData.birthday, 'fullDateWithWeekday')" readonly></v-text-field>
+        <v-text-field :model-value="adapter.format(quotation.petData.birthday, 'fullDateWithWeekday')"
+          readonly></v-text-field>
       </v-col>
       <v-col cols="12" md="6">
         <v-label>Edad</v-label>
         <v-text-field v-model="quotation.petData.age" readonly></v-text-field>
+      </v-col>
+
+      <v-divider></v-divider>
+    </v-row>
+
+    <v-row class="mt-2">
+      <v-col>
+        <b>Preguntas:</b>
+        <v-list lines="one">
+          <v-list-item v-for="item in quotation.questions" prepend-icon="mdi-help-circle-outline" :key="item">
+            <v-list-item-title>
+              {{ item.question }}
+            </v-list-item-title>
+            <b>R:</b> {{ item.answer }}
+          </v-list-item>
+        </v-list>
       </v-col>
     </v-row>
 

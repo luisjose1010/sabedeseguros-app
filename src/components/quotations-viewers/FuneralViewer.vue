@@ -25,6 +25,8 @@
         <v-label>Edad</v-label>
         <v-select v-model="quotation.client.age" readonly></v-select>
       </v-col>
+
+      <v-divider></v-divider>
     </v-row>
 
     <h3 v-if="quotation.funeralData.type === 'Colectivo'">Datos de la empresa</h3>
@@ -51,9 +53,9 @@
         <v-label>Persona a cargo</v-label>
         <v-text-field v-model="quotation.funeralData.company.owner" readonly></v-text-field>
       </v-col>
-    </v-row>
 
-    <v-divider></v-divider>
+      <v-divider></v-divider>
+    </v-row>
 
     <v-row class="mt-2">
       <v-col>
@@ -78,9 +80,9 @@
           </v-expansion-panel>
         </v-expansion-panels>
       </v-col>
-    </v-row>
 
-    <v-divider></v-divider>
+      <v-divider></v-divider>
+    </v-row>
 
     <v-row class="mt-2">
       <v-col>

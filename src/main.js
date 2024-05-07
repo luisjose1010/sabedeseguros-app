@@ -37,7 +37,7 @@ if (document && document.getElementById('sabedese-app')) {
     appBuild.component('life-quoter', LifeQuoter)
     appBuild.component('car-quoter', CarQuoter)
     appBuild.component('patrimonial-quoter', PatrimonialQuoter)
-    appBuild.component('patrimonial-quoter', TransportQuoter)
+    appBuild.component('transport-quoter', TransportQuoter)
     appBuild.component('surety-quoter', SuretyQuoter)
     appBuild.component('pet-quoter', PetQuoter)
     appBuild.mount('#sabedese-app')
