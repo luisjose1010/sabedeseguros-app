@@ -109,7 +109,7 @@ export default {
     valid: false,
 
     insuredSums: ['Cargando...'],
-    types: ['HCM', 'EMERGENCIAS MÉDICAS', 'MEDICINA PREPAGADA (ZULIA)'],
+    types: ['HCM', 'EMERGENCIAS MÉDICAS', 'MEDICINA PREPAGADA (ZULIA)', 'APS'],
     companies: ['Cargando...'],
     modes: ['ANUAL', 'SEMESTRAL', 'TRIMESTRAL'],
     modeMultipliers: [1, 2, 4],

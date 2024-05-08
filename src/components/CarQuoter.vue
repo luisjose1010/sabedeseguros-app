@@ -11,8 +11,8 @@
               <v-row class="mt-4">
                 <v-col cols="12" sm="6">
                   <v-label>Marca</v-label>
-                  <v-text-field v-model="carData.brand" :rules="[requiredRule]" label="Escriba la marca del vehículo"
-                    hide-details required></v-text-field>
+                  <v-combobox v-model="carData.brand" :items="brands" :rules="[requiredRule]"
+                    label="Escriba la marca del vehículo" hide-details required></v-combobox>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-label>Modelo</v-label>
@@ -62,6 +62,11 @@ export default {
       'Datos personales',
       'Preguntas finales',
       'Cotización realizada',
+    ],
+    brands: [
+      'Toyota', 'Hyundai', 'Mitsubishi', 'Volkswagen', 'Ford',
+      'Renault', 'Honda', 'Mazda', 'Mercedes Benz', 'Kia', 'Audi',
+      'Susuki', 'General Motors',
     ],
 
     client: {
