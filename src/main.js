@@ -23,12 +23,14 @@ import DropdownQuoters from './components/DropdownQuoters.vue'
 // Composables
 import { createApp } from 'vue/dist/vue.esm-bundler'
 
+// Use default component
 if (document && document.getElementById('app')) {
     const app = createApp(App)
     registerPlugins(app)
     app.mount('#app')
 }
 
+// Use individual components in the HTML element
 if (document && document.getElementById('sabedese-app')) {
     const appBuild = createApp({})
     registerPlugins(appBuild)

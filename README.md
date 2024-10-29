@@ -1,6 +1,47 @@
-# Vuetify (Default)
+# SabedeSeguros App
 
-This is the official scaffolding tool for Vuetify, designed to give you a head start in building your new Vuetify application. It sets up a base template with all the necessary configurations and standard directory structure, enabling you to begin development without the hassle of setting up the project from scratch.
+Aplicación de cotizadores de seguros para la página web de Sabe de Seguros que utiliza Vue.js y Vuetify, con una estructura de proyecto creada mediante su herramienta oficial de "scaffolding". Está diseñada para utilizarse en el contexto de un [plugin personalizado](https://github.com/luisjose1010/sabedese-quoters "sabedese-quoters") de WordPress, por lo que puede montarse el componente principal en un elemento HTML con el id '#app' ubicado en cualquier lugar de un sitio web, o bien, utilizar cualquiera de los cotizadores individualmente mediante un elemento con el id '#sabedese-app', especificando el cotizador manualmente con su elemento.
+
+## Uso
+
+Se puede utilizar el componente por defecto montando la aplicación normal de Vue:
+
+```html
+<div id="app">
+  <!-- Va a renderizar 'dropdown-quoters' automáticamente -->
+</div>
+```
+
+o bien, se puede montar individualmente cada cotizador utilizando el componente correspondiente. Por ejemplo:
+
+```html
+<div id="sabedese-app">
+  <dropdown-quoters></dropdown-quoters>
+</div>
+```
+
+### Cotizadores disponibles
+
+- **dropdown-quoters** - Cotizador desplegable con todo el resto de cotizadores.
+- **health-quoter** - Cotizador para pólizas de salud.
+- **funeral-quoter** - Cotizador para pólizas funerarias.
+- **accidents-quoter** - Cotizador para pólizas de accidentes personales.
+- **life-quoter** - Cotizador para pólizas de vida.
+- **car-quoter** - Cotizador para pólizas de vehículos.
+- **patrimonial-quoter** - Cotizador para pólizas patrimoniales.
+- **transport-quoter** - Cotizador para pólizas de transporte.
+- **surety-quoter** - Cotizador para pólizas de siniestro.
+- **pet-quoter** - Cotizador para pólizas de mascotas.
+
+### Uso dentro del plugin de WordPress
+
+Para utilizar este componente en el [plugin](https://github.com/luisjose1010/sabedese-quoters "sabedese-quoters") de WordPress, se debe agregar la carpeta empaquetada del proyecto a la carpeta `/src/app` dentro de la respectiva raíz del plugin de WordPress. El plugin se encuentra configurado para mostrar los componentes al utilizar los "shortcodes" definidos para cada cotizador.
+
+## Gestión del proyecto
+
+El proyecto se gestiona íntegramente mediante la plataforma de gestión [ClickUp](https://app.clickup.com/ "ClickUp") en este [enlace](https://app.clickup.com/9013166617/v/f/90131438783/90130724656 "Proyecto ClickUp de SabedeSeguros"). Para acceder al respectivo enlace con las tareas y la organización del proyecto, que complementan la documentación del mismo, es necesario poseer una cuenta con los permisos necesarios.
+
+![Tareas del proyecto](docs/project-tasks.png)
 
 ## ❗️ Important Links
 
