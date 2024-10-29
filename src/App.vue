@@ -1,5 +1,5 @@
 <template>
-  <pet-quoter></pet-quoter>
+  <dropdown-quoters></dropdown-quoters>
 </template>
 
 <script setup>

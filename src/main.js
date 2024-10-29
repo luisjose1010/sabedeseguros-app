@@ -18,6 +18,7 @@ import PatrimonialQuoter from './components/PatrimonialQuoter.vue'
 import TransportQuoter from './components/TransportQuoter.vue'
 import SuretyQuoter from './components/SuretyQuoter.vue'
 import PetQuoter from './components/PetQuoter.vue'
+import DropdownQuoters from './components/DropdownQuoters.vue'
 
 // Composables
 import { createApp } from 'vue/dist/vue.esm-bundler'
@@ -40,5 +41,6 @@ if (document && document.getElementById('sabedese-app')) {
     appBuild.component('transport-quoter', TransportQuoter)
     appBuild.component('surety-quoter', SuretyQuoter)
     appBuild.component('pet-quoter', PetQuoter)
+    appBuild.component('dropdown-quoters', DropdownQuoters)
     appBuild.mount('#sabedese-app')
 }
